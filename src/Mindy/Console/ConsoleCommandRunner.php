@@ -128,9 +128,11 @@ class ConsoleCommandRunner
      */
     public function findCommands($path)
     {
-        if (($dir = @opendir($path)) === false) {
+        if(!is_dir($path)) {
             return [];
         }
+
+        $dir = opendir($path);
         $commands = [];
         while (($name = readdir($dir)) !== false) {
             if (in_array($name, ['.', '..'])) {
