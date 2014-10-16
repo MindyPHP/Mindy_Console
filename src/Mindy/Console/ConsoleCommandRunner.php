@@ -22,7 +22,7 @@
 
 namespace Mindy\Console;
 
-use Mindy\Base\Exception\Exception;
+use Mindy\Exception\Exception;
 use Mindy\Helper\Creator;
 use Mindy\Helper\Traits\BehaviorAccessors;
 use Mindy\Helper\Traits\Configurator;
