@@ -464,24 +464,19 @@ abstract class ConsoleCommand
      * Renders a view file.
      * @param string $_viewFile_ view file path
      * @param array $_data_ optional data to be extracted as local view variables
-     * @param boolean $_return_ whether to return the rendering result instead of displaying it
      * @return mixed the rendering result if required. Null otherwise.
      */
-    public function renderFile($_viewFile_, $_data_ = null, $_return_ = false)
+    public function renderFile($_viewFile_, $_data_ = null)
     {
         if (is_array($_data_)) {
             extract($_data_, EXTR_PREFIX_SAME, 'data');
         } else {
             $data = $_data_;
         }
-        if ($_return_) {
-            ob_start();
-            ob_implicit_flush(false);
-            require($_viewFile_);
-            return ob_get_clean();
-        } else {
-            require($_viewFile_);
-        }
+        ob_start();
+        ob_implicit_flush(false);
+        require($_viewFile_);
+        return ob_get_clean();
     }
 
     /**
