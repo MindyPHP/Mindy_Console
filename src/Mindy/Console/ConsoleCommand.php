@@ -78,6 +78,7 @@ abstract class ConsoleCommand
 
     private $_name;
     private $_runner;
+    private $_module;
 
     /**
      * Constructor.
@@ -214,6 +215,21 @@ abstract class ConsoleCommand
             $exitCode = $afterResults->getLast()->value;
         }
         return $exitCode;
+    }
+
+    /**
+     * @return \Mindy\Base\Module the module that this controller belongs to. It returns null
+     * if the controller does not belong to any module
+     */
+    public function getModule()
+    {
+        if($this->_module === null) {
+            $reflect = new \ReflectionClass(get_class($this));
+            $namespace = $reflect->getNamespaceName();
+            $segments = explode('\\', $namespace);
+            $this->_module = Mindy::app()->getModule($segments[1]);
+        }
+        return $this->_module;
     }
 
     /**
