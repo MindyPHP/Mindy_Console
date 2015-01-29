@@ -2,6 +2,7 @@
     "name": "mindy/console",
     "homepage": "https://github.com/studio107/Mindy_Console",
     "license": "MIT",
+    "version": "0.1",
     "autoload": {
         "psr-0": {
             "": "src/"
