@@ -14,14 +14,6 @@
 
 namespace Mindy\Console;
 
-/**
- * CConsoleCommand class file.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 use Mindy\Base\Mindy;
 use Mindy\Helper\Traits\BehaviorAccessors;
 use Mindy\Helper\Traits\Configurator;
@@ -63,7 +55,7 @@ use ReflectionMethod;
  * the help information for a single action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.console
+ * @package Mindy\Console
  * @since 1.0
  */
 abstract class ConsoleCommand
