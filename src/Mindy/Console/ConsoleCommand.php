@@ -14,8 +14,16 @@
 
 namespace Mindy\Console;
 
+/**
+ * CConsoleCommand class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright 2008-2013 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 use Mindy\Base\Mindy;
-use Mindy\Helper\Traits\BehaviorAccessors;
+use Mindy\Helper\Traits\Accessors;
 use Mindy\Helper\Traits\Configurator;
 use ReflectionClass;
 use ReflectionMethod;
@@ -55,12 +63,12 @@ use ReflectionMethod;
  * the help information for a single action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @package Mindy\Console
+ * @package system.console
  * @since 1.0
  */
 abstract class ConsoleCommand
 {
-    use Configurator, BehaviorAccessors;
+    use Configurator, Accessors;
 
     /**
      * @var string the name of the default action. Defaults to 'index'.
@@ -85,8 +93,6 @@ abstract class ConsoleCommand
         $signal = Mindy::app()->signal;
         $signal->handler($this, 'beforeAction', [$this, 'beforeAction']);
         $signal->handler($this, 'afterAction', [$this, 'afterAction']);
-
-        $this->attachBehaviors($this->behaviors());
     }
 
     /**
@@ -198,14 +204,10 @@ abstract class ConsoleCommand
             $this->usageError("Unknown options: " . implode(', ', array_keys($options)));
         }
 
-        $exitCode = 0;
         $signal = Mindy::app()->signal;
-        $beforeResults = $signal->send($this, 'beforeAction', $this, $action, $params);
-        if ($beforeResults->getLast()->value) {
-            $exitCode = $method->invokeArgs($this, $params);
-            $afterResults = $signal->send($this, 'afterAction', $this, $action, $params, is_int($exitCode) ? $exitCode : 0);
-            $exitCode = $afterResults->getLast()->value;
-        }
+        $signal->send($this, 'beforeAction', $this, $action, $params);
+        $exitCode = $method->invokeArgs($this, $params);
+        $signal->send($this, 'afterAction', $this, $action, $params, is_int($exitCode) ? $exitCode : 0);
         return $exitCode;
     }
 

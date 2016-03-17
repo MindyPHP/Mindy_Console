@@ -3,12 +3,21 @@
 namespace Mindy\Console;
 
 /**
+ * HelpCommand class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright 2008-2013 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
  * HelpCommand displays help information for commands under yiic shell.
  *
  * @property string $help The command description.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @package Mindy\Console
+ * @package system.cli.commands.shell
  * @since 1.0
  */
 class HelpCommand extends ConsoleCommand
