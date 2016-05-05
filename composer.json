@@ -2,7 +2,6 @@
   "name": "mindy/console",
   "homepage": "https://github.com/studio107/Mindy_Console",
   "license": "BSD",
-  "version": "1.0",
   "autoload": {
     "psr-4": {
       "Mindy\\Console\\": "src/Mindy/Console"
