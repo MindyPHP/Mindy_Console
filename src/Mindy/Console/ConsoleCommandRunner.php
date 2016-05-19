@@ -24,6 +24,7 @@ namespace Mindy\Console;
 
 use Mindy\Exception\Exception;
 use Mindy\Helper\Creator;
+use Mindy\Helper\Text;
 use Mindy\Helper\Traits\Accessors;
 use Mindy\Helper\Traits\Configurator;
 
@@ -152,12 +153,15 @@ class ConsoleCommandRunner
      * If a command already exists, the new one will be ignored.
      * @param string $path the alias of the directory containing the command class files.
      */
-    public function addCommands($path)
+    public function addCommands($path, $prefix = '')
     {
+        if (empty($prefix) == false) {
+            $prefix = Text::toUnderscore($prefix) . ':';
+        }
         if (($commands = $this->findCommands($path)) !== []) {
             foreach ($commands as $name => $file) {
                 if (!isset($this->commands[$name])) {
-                    $this->commands[$name] = $file;
+                    $this->commands[$prefix . $name] = $file;
                 }
             }
         }
