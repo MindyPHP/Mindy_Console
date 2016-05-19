@@ -129,7 +129,7 @@ class ConsoleCommandRunner
      */
     public function findCommands($path)
     {
-        if(!is_dir($path)) {
+        if (!is_dir($path)) {
             return [];
         }
 
