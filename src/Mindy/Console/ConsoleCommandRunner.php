@@ -66,6 +66,12 @@ class ConsoleCommandRunner
     private $_scriptName;
     private $_command;
 
+    public function setCommandMap(array $map)
+    {
+        $this->commands = $map;
+        return $this;
+    }
+
     /**
      * Executes the requested command.
      * @param array $args list of user supplied parameters (including the entry script name and the command name).
