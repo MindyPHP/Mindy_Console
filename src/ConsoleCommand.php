@@ -97,33 +97,6 @@ abstract class ConsoleCommand
     {
         $this->_name = $name;
         $this->_runner = $runner;
-
-        $signal = Mindy::app()->signal;
-        $signal->handler($this, 'beforeAction', [$this, 'beforeAction']);
-        $signal->handler($this, 'afterAction', [$this, 'afterAction']);
-    }
-
-    /**
-     * This method is invoked right before an action is to be executed.
-     * You may override this method to do last-minute preparation for the action.
-     * @param string $action the action name
-     * @param array $params the parameters to be passed to the action method.
-     * @return boolean whether the action should be executed.
-     */
-    public function beforeAction($action, $params)
-    {
-    }
-
-    /**
-     * This method is invoked right after an action finishes execution.
-     * You may override this method to do some postprocessing for the action.
-     * @param string $action the action name
-     * @param array $params the parameters to be passed to the action method.
-     * @param integer $exitCode the application exit code returned by the action method.
-     * @return integer application exit code (return value is available since version 1.1.11)
-     */
-    public function afterAction($action, $params, $exitCode)
-    {
     }
 
     /**
@@ -184,11 +157,7 @@ abstract class ConsoleCommand
             $this->usageError("Unknown options: " . implode(', ', array_keys($options)));
         }
 
-        $signal = Mindy::app()->signal;
-        $signal->send($this, 'beforeAction', $this, $action, $params);
-        $exitCode = $method->invokeArgs($this, $params);
-        $signal->send($this, 'afterAction', $this, $action, $params, is_int($exitCode) ? $exitCode : 0);
-        return $exitCode;
+        return $method->invokeArgs($this, $params);
     }
 
     /**
@@ -197,13 +166,17 @@ abstract class ConsoleCommand
      */
     public function getModule()
     {
-        if ($this->_module === null) {
-            $reflect = new ReflectionClass(get_class($this));
-            $namespace = $reflect->getNamespaceName();
-            $segments = explode('\\', $namespace);
-            $this->_module = Mindy::app()->getModule($segments[1]);
+        if (class_exists('\Mindy\Base\Mindy') && \Mindy\Base\Mindy::app() !== null) {
+            if ($this->_module === null) {
+                $reflect = new ReflectionClass(get_class($this));
+                $namespace = $reflect->getNamespaceName();
+                $segments = explode('\\', $namespace);
+                $this->_module = \Mindy\Base\Mindy::app()->getModule($segments[1]);
+            }
+            return $this->_module;
+        } else {
+            return null;
         }
-        return $this->_module;
     }
 
     /**
@@ -302,7 +275,11 @@ abstract class ConsoleCommand
                     $optional = $param->isDefaultValueAvailable();
                     $defaultValue = $optional ? $param->getDefaultValue() : null;
                     if (is_array($defaultValue)) {
-                        $defaultValue = str_replace(array("\r\n", "\n", "\r"), "", print_r($defaultValue, true));
+                        $arrOut = [];
+                        foreach ($defaultValue as $key => $value) {
+                            $arrOut[] = $key . ' => ' . $value;
+                        }
+                        $defaultValue = str_replace(array("\r\n", "\n", "\r"), "", '[' . implode(', ', $arrOut) . ']');
                     }
                     $name = $param->getName();
 

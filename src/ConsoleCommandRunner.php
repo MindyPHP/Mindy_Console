@@ -22,7 +22,6 @@
 
 namespace Mindy\Console;
 
-use Mindy\Exception\Exception;
 use Mindy\Helper\Creator;
 use Mindy\Helper\Text;
 use Mindy\Helper\Traits\Accessors;
@@ -101,25 +100,6 @@ class ConsoleCommandRunner
     public function getScriptName()
     {
         return $this->_scriptName;
-    }
-
-    /**
-     * Returns the currently running command.
-     * @return ConsoleCommand|null the currently active command.
-     * @since 1.1.14
-     */
-    public function getCommand()
-    {
-        return $this->_command;
-    }
-
-    /**
-     * @param ConsoleCommand $value the currently active command.
-     * @since 1.1.14
-     */
-    public function setCommand($value)
-    {
-        $this->_command = $value;
     }
 
     /**
@@ -208,7 +188,7 @@ class ConsoleCommandRunner
 
     /**
      * @param string $name command name (case-insensitive)
-     * @throws Exception
+     * @throws \Exception
      * @return ConsoleCommand|null the command object. Null if the name is invalid.
      */
     public function createCommand($name)
@@ -226,8 +206,11 @@ class ConsoleCommandRunner
         }
 
         if ($command !== null) {
-            $classes = $this->getClassesFromCode(file_get_contents($command));
-            return Creator::createObject(array_shift($classes), $name, $this);
+
+//            $classes = $this->getClassesFromCode(file_get_contents($command));
+//            return Creator::createObject(array_shift($classes), $name, $this);
+
+            return Creator::createObject($command, $name, $this);
         } elseif ($name === 'help')
             return new HelpCommand('help', $this);
         else {

@@ -1,20 +1,25 @@
 {
   "name": "mindy/console",
-  "homepage": "https://github.com/studio107/Mindy_Console",
+  "type": "library",
+  "homepage": "https://github.com/MindyPHP/Mindy_Console",
   "license": "BSD",
   "autoload": {
     "psr-4": {
-      "Mindy\\Console\\": "src/Mindy/Console"
+      "Mindy\\Console\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mindy\\Console\\Tests\\": "test/"
     }
   },
   "require": {
-    "php": ">=5.4",
-    "mindy/base": "*",
-    "mindy/helper": "*",
-    "mindy/exception": "*"
+    "php": ">=5.6",
+    "mindy/helper": "*"
   },
   "require-dev": {
-    "satooshi/php-coveralls": "dev-master"
+    "phpunit/phpunit": "*",
+    "phpunit/php-code-coverage": "*"
   },
   "authors": [
     {
@@ -25,6 +30,6 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/studio107/Mindy_Console/issues?state=open"
+    "issues": "https://github.com/MindyPHP/Mindy_Console/issues?state=open"
   }
 }
