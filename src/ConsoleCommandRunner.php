@@ -213,10 +213,12 @@ class ConsoleCommandRunner
 
         if ($command !== null) {
 
-//            $classes = $this->getClassesFromCode(file_get_contents($command));
-//            return Creator::createObject(array_shift($classes), $name, $this);
-
-            return Creator::createObject($command, $name, $this);
+            if (is_file($command)) {
+                $classes = $this->getClassesFromCode(file_get_contents($command));
+                return Creator::createObject(array_shift($classes), $name, $this);
+            } else {
+                return Creator::createObject($command, $name, $this);
+            }
         } elseif ($name === 'help')
             return new HelpCommand('help', $this);
         else {
